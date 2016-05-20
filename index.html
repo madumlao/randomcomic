@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Random Comics</title>
+		<script src="jquery.min.js"></script>
+		<script src="randomcomic.js"></script>
+		<script>
+$(document).ready(function () {
+	t = new Timer(60);
+	t.start();
+
+	$('#play').on('click', t.resume.bind(t));
+	$('#pause').on('click', t.stop.bind(t));
+	$('#prev').on('click', t.prev.bind(t));
+	$('#next').on('click', t.next.bind(t));
+});
+		</script>
+<style>
+body { text-align: center; }
+</style>
+	</head>
+	<body>
+		<h1 id="name"></h1>
+		<img id="img" />
+		<p id="flavor"></p>
+		<hr />
+		<p id="counter"></p>
+		<input id="prev" type="button" value="Previous" />
+		<input id="next" type="button" value="Next" />
+		<input id="play" type="button" value="Play" />
+		<input id="pause" type="button" value="Pause" />
+
+	</body>
+</html>
