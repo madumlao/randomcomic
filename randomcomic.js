@@ -58,6 +58,8 @@ Timer.prototype.next = function () {
 
 	if (this.current < this.max) {
 		this.current++;
+	} else {
+		this.start();
 	}
 	this.display(this.comics[this.current]);
 };
