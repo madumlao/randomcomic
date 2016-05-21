@@ -35,19 +35,17 @@ Timer.prototype.hideNext = function () {
 Timer.prototype.showNext = function () {
 	$('#next').attr('disabled', false);
 };
+Timer.prototype.tick = function () {
+	this.update();
+	this.time--;
+	if (this.time <= 0) {
+		this.time = this.interval;
+		this.trigger();
+	}
+};
 Timer.prototype.resume = function () {
 	this.hidePlay();
-
-	// every second, run update with new time
-	var intervalFunction = (function () {
-		this.update();
-		this.time--;
-		if (this.time <= 0) {
-			this.time = this.interval;
-			this.trigger();
-		}
-	}).bind(this);
-	this.timer = setInterval(intervalFunction, 1000);
+	this.timer = setInterval(this.tick.bind(this), 1000);
 };
 Timer.prototype.stop = function () {
 	this.showPlay();
