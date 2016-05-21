@@ -89,6 +89,9 @@ Timer.prototype.addComic = function (data) {
 };
 Timer.prototype.display = function (comic) {
 	$('#name').html(comic.alt);
+	$('#source').html(comic.source);
+	$('#link').attr('href', comic.link);
+	$('#serial').html(comic.serial);
 	$('#flavor').html(comic.title);
 	$('#img').attr('src', comic.src);
 

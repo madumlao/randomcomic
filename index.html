@@ -20,14 +20,18 @@ body { text-align: center; }
 </style>
 	</head>
 	<body>
-		<p id="counter"></p>
 		<input id="prev" type="button" value="Previous" disabled />
 		<input id="next" type="button" value="Next" disabled />
 		<input id="play" type="button" value="Play" />
 		<input id="pause" type="button" value="Pause" disabled />
 		<hr />
-		<h1 id="name"></h1>
+		<h1>
+			[<span id="source"></span>
+			<a id="link" href="">#<span id="serial"></span></a>]
+			<span id="name"></span>
+		</h1>
 		<img id="img" />
 		<p id="flavor"></p>
+		<p id="counter"></p>
 	</body>
 </html>
