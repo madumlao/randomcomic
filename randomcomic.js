@@ -8,10 +8,7 @@ function Timer(seconds) {
 }
 Timer.prototype.start = function () {
 	this.time = this.interval;
-
-	// get at least one comic
 	this.trigger();
-
 	this.resume();
 };
 Timer.prototype.hidePlay = function () {
