@@ -13,7 +13,7 @@ Timer.prototype.start = function () {
 	this.trigger();
 
 	this.resume();
-}
+};
 Timer.prototype.hidePlay = function () {
 	$('#play').attr('disabled', true);
 	$('#play').css('display', 'none');
@@ -25,6 +25,18 @@ Timer.prototype.showPlay = function () {
 	$('#play').css('display', 'inline-block');
 	$('#pause').attr('disabled', true);
 	$('#pause').css('display', 'none');
+};
+Timer.prototype.hidePrev = function () {
+	$('#prev').attr('disabled', true);
+};
+Timer.prototype.showPrev = function () {
+	$('#prev').attr('disabled', false);
+};
+Timer.prototype.hideNext = function () {
+	$('#next').attr('disabled', true);
+};
+Timer.prototype.showNext = function () {
+	$('#next').attr('disabled', false);
 };
 Timer.prototype.resume = function () {
 	this.hidePlay();
@@ -51,6 +63,10 @@ Timer.prototype.prev = function () {
 	if (this.current >= 0) {
 		this.current--;
 	}
+	if (this.current == 0) {
+		this.hidePrev();
+	}
+	
 	this.display(this.comics[this.current]);
 };
 Timer.prototype.next = function () {
@@ -69,13 +85,21 @@ Timer.prototype.addComic = function (data) {
 	this.max++;
 	this.current = this.max;
 	this.display(this.comics[this.comics.length-1]);
+	this.showNext();
 };
 Timer.prototype.display = function (comic) {
 	$('#name').html(comic.alt);
 	$('#flavor').html(comic.title);
 	$('#img').attr('src', comic.src);
+
+	if (this.current > 0) {
+		this.showPrev();
+	} else {
+		this.hidePrev();
+	}
 }
 Timer.prototype.getComic = function () {
+	this.hideNext();
 	$.get('xkcd.php', this.addComic.bind(this));
 }
 Timer.prototype.trigger = function () {
