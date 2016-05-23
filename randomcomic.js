@@ -35,6 +35,12 @@ Timer.prototype.hideNext = function () {
 Timer.prototype.showNext = function () {
 	$('#next').attr('disabled', false);
 };
+Timer.prototype.hideCounter = function () {
+	$('#counter_holder').css('display', 'none');
+};
+Timer.prototype.showCounter = function () {
+	$('#counter_holder').css('display', 'inline-block');
+};
 Timer.prototype.tick = function () {
 	this.update();
 	this.time--;
@@ -45,10 +51,12 @@ Timer.prototype.tick = function () {
 };
 Timer.prototype.resume = function () {
 	this.hidePlay();
+	this.showCounter();
 	this.timer = setInterval(this.tick.bind(this), 1000);
 };
 Timer.prototype.stop = function () {
 	this.showPlay();
+	this.hideCounter();
 
 	clearInterval(this.timer);
 };
