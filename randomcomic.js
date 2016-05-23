@@ -89,6 +89,7 @@ Timer.prototype.addComic = function (data) {
 	this.current = this.max;
 	this.display(this.comics[this.comics.length-1]);
 	this.showNext();
+	this.resume();
 };
 Timer.prototype.display = function (comic) {
 	$('#name').html(comic.alt);
@@ -106,6 +107,7 @@ Timer.prototype.display = function (comic) {
 }
 Timer.prototype.getComic = function () {
 	this.hideNext();
+	this.stop();
 	$.get('xkcd.php', this.addComic.bind(this));
 }
 Timer.prototype.trigger = function () {
