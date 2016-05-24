@@ -52,6 +52,7 @@ Timer.prototype.tick = function () {
 Timer.prototype.resume = function () {
 	this.hidePlay();
 	this.showCounter();
+	clearInterval(this.timer);
 	this.timer = setInterval(this.tick.bind(this), 1000);
 };
 Timer.prototype.stop = function () {
