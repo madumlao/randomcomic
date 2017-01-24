@@ -93,11 +93,11 @@ Timer.prototype.addComic = function (data) {
 	this.resume();
 };
 Timer.prototype.display = function (comic) {
-	$('#name').html(comic.alt);
+	$('#name').html(comic.title);
 	$('#source').html(comic.source);
 	$('#link').attr('href', comic.link);
 	$('#serial').html(comic.serial);
-	$('#flavor').html(comic.title);
+	$('#flavor').html(comic.alt);
 	$('#img').attr('src', comic.src);
 
 	if (this.current > 0) {

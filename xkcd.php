@@ -45,8 +45,8 @@ foreach (pq('img[alt][title]') AS $comic) {
 	$obj['link'] = $url;
 	$obj['serial'] = $serial;
 	$obj['src'] = pq($comic)->attr('src');
-	$obj['title'] = pq($comic)->attr('title');
-	$obj['alt'] = pq($comic)->attr('alt');
+	$obj['title'] = pq($comic)->attr('alt');
+	$obj['alt'] = pq($comic)->attr('title');
 
 	echo json_encode($obj, JSON_UNESCAPED_SLASHES);
 	exit();
