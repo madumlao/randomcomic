@@ -109,7 +109,12 @@ Timer.prototype.display = function (comic) {
 Timer.prototype.getComic = function () {
 	this.hideNext();
 	this.stop();
-	$.get('xkcd.php', this.addComic.bind(this));
+	var sources = [
+		'xkcd.php',
+		'qwantz.php'
+	];
+	var source = sources[Math.floor(Math.random()*sources.length)];
+	$.get(source, this.addComic.bind(this));
 }
 Timer.prototype.trigger = function () {
 	this.getComic();
