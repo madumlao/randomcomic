@@ -111,7 +111,8 @@ Timer.prototype.getComic = function () {
 	this.stop();
 	var sources = [
 		'xkcd.php',
-		'qwantz.php'
+		'qwantz.php',
+		'smbc.php'
 	];
 	var source = sources[Math.floor(Math.random()*sources.length)];
 	$.get(source, this.addComic.bind(this));
