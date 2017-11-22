@@ -54,6 +54,7 @@ Timer.prototype.resume = function () {
 	if (sources.length > 0) {
 		this.hidePlay();
 		this.showCounter();
+		this.showNext();
 		clearInterval(this.timer);
 		this.timer = setInterval(this.tick.bind(this), 1000);
 	} else {
