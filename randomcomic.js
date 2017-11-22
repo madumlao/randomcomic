@@ -50,10 +50,15 @@ Timer.prototype.tick = function () {
 	}
 };
 Timer.prototype.resume = function () {
-	this.hidePlay();
-	this.showCounter();
-	clearInterval(this.timer);
-	this.timer = setInterval(this.tick.bind(this), 1000);
+	var sources = this.enabledSources();
+	if (sources.length > 0) {
+		this.hidePlay();
+		this.showCounter();
+		clearInterval(this.timer);
+		this.timer = setInterval(this.tick.bind(this), 1000);
+	} else {
+		alert("No comics selected");
+	}
 };
 Timer.prototype.stop = function () {
 	this.showPlay();
@@ -106,16 +111,25 @@ Timer.prototype.display = function (comic) {
 		this.hidePrev();
 	}
 }
+Timer.prototype.comicEnabled = function (comic) {
+	return $('#ok-' + comic).prop('checked');
+}
+Timer.prototype.enabledSources = function () {
+	var sources = [
+		'xkcd',
+		'qwantz',
+		'smbc',
+	];
+	return sources.filter(this.comicEnabled);
+}
 Timer.prototype.getComic = function () {
 	this.hideNext();
 	this.stop();
-	var sources = [
-		'xkcd.php',
-		'qwantz.php',
-		'smbc.php'
-	];
-	var source = sources[Math.floor(Math.random()*sources.length)];
-	$.get(source, this.addComic.bind(this));
+	var sources = this.enabledSources();
+	if (sources.length > 0) {
+		var source = sources[Math.floor(Math.random()*sources.length)];
+		$.get(source + '.php', this.addComic.bind(this));
+	}
 }
 Timer.prototype.trigger = function () {
 	this.getComic();
