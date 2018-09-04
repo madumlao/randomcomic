@@ -120,6 +120,7 @@ Timer.prototype.enabledSources = function () {
 		'xkcd',
 		'qwantz',
 		'smbc',
+		'theawkwardyeti',
 	];
 	return sources.filter(this.comicEnabled);
 }
