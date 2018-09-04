@@ -41,7 +41,7 @@ header('Content-Type: application/json');
 foreach (pq('#comic > a > img[alt][title]') AS $comic) {
 	$obj = [];
 
-	$obj['source'] = 'theawkwardyeti';
+	$obj['source'] = 'awkwardyeti';
 	$obj['link'] = $url;
 	$obj['src'] = pq($comic)->attr('src');
 	preg_match('!uploads/(\d{4}/\d{2}(/\d{2})?)!', $obj['src'], $matches);
