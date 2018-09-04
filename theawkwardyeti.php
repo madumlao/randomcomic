@@ -1,6 +1,4 @@
 <?php
-header('Content-Type: application/json');
-
 $url = 'http://theawkwardyeti.com/?random';
 // get the comic source
 $ch = curl_init($url);
@@ -39,7 +37,7 @@ libxml_use_internal_errors(true);
 require('phpQuery-onefile.php');
 phpQuery::newDocument($response);
 
-// header('Content-Type: application/json');
+header('Content-Type: application/json');
 foreach (pq('#comic > a > img[alt][title]') AS $comic) {
 	$obj = [];
 
