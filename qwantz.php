@@ -35,9 +35,9 @@ $obj = [];
 $obj['source'] = 'qwantz';
 $obj['link'] = $url;
 $obj['serial'] = $serial;
-$obj['src'] = pq($img)->attr('src');
+$obj['src'] = 'http://qwantz.com/' . pq($img)->attr('src');
 $obj['title'] = $title;
 $obj['alt'] = pq($img)->attr('title');
 
-echo json_encode($obj, JSON_UNESCAPED_SLASHES);
+echo json_encode($obj, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
 exit();
