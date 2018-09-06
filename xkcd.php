@@ -1,32 +1,27 @@
 <?php
-$url = 'http://c.xkcd.com/random/comic/';
-// get the comic source
-$ch = curl_init($url);
-curl_setopt($ch, CURLOPT_HEADER, TRUE);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-$response = curl_exec($ch);
+require_once("include.php");
 
-$headers = parse_headers($response);
-function parse_headers($response) {
-	$headers = [];
-	$header_text = substr($response, 0, strpos($response, "\r\n\r\n"));
+if (!isset($_REQUEST['slug'])) {
+	// get a random comic
 
-	foreach (explode("\r\n", $header_text) as $i => $line) {
-		if ($i === 0) {
-			$headers['http_code'] = $line;
-		} else {
-			list($key, $value) = explode(': ', $line);
-			$headers[$key] = $value;
-		}
-	}
+	$url = 'http://c.xkcd.com/random/comic/';
+	// get the comic source
+	$ch = curl_init($url);
+	curl_setopt($ch, CURLOPT_HEADER, TRUE);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+	$response = curl_exec($ch);
 
-	return $headers;
+	$headers = parse_headers($response);
+	
+	$url = $headers['Location'];
+	preg_match('!(\d*)/$!', $url, $matches);
+	$slug = $matches[1];
+} else {
+	$slug = $_REQUEST['slug'];
+	$url = "https://xkcd.com/$slug";
 }
 
-// follow the comic redirect
-$url = $headers['Location'];
-preg_match('!(\d*)/$!', $url, $matches);
-$serial = $matches[1];
+// get the comic
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -34,7 +29,6 @@ $response = curl_exec($ch);
 
 libxml_use_internal_errors(true);
 
-require('phpQuery-onefile.php');
 phpQuery::newDocument($response);
 
 header('Content-Type: application/json');
@@ -43,7 +37,8 @@ foreach (pq('img[alt][title]') AS $comic) {
 
 	$obj['source'] = 'xkcd';
 	$obj['link'] = $url;
-	$obj['serial'] = $serial;
+	$obj['slug'] = $slug;
+	$obj['serial'] = $slug;
 	$obj['src'] = pq($comic)->attr('src');
 	$obj['title'] = pq($comic)->attr('alt');
 	$obj['alt'] = pq($comic)->attr('title');

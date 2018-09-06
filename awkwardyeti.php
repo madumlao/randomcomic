@@ -1,30 +1,26 @@
 <?php
-$url = 'http://theawkwardyeti.com/?random';
-// get the comic source
-$ch = curl_init($url);
-curl_setopt($ch, CURLOPT_HEADER, TRUE);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-$response = curl_exec($ch);
+require_once("include.php");
 
-$headers = parse_headers($response);
-function parse_headers($response) {
-	$headers = [];
-	$header_text = substr($response, 0, strpos($response, "\r\n\r\n"));
+if (!isset($_REQUEST['slug'])) {
+	// get a random comic
+	
+	$url = 'http://theawkwardyeti.com/?random';
 
-	foreach (explode("\r\n", $header_text) as $i => $line) {
-		if ($i === 0) {
-			$headers['http_code'] = $line;
-		} else {
-			list($key, $value) = explode(': ', $line);
-			$headers[$key] = $value;
-		}
-	}
+	$ch = curl_init($url);
+	curl_setopt($ch, CURLOPT_HEADER, TRUE);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+	$response = curl_exec($ch);
 
-	return $headers;
+	$headers = parse_headers($response);
+
+	$url = $headers['Location'];
+	preg_match('!/([^/]*)(/*)?$!', $url, $matches);
+	$slug = $matches[1];
+} else {
+	$slug = $_REQUEST['slug'];
+	$url = "http://theawkwardyeti.com/$slug";
 }
 
-// follow the comic redirect
-$url = $headers['Location'];
 
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_ENCODING, "");
@@ -34,7 +30,6 @@ $response = curl_exec($ch);
 
 libxml_use_internal_errors(true);
 
-require('phpQuery-onefile.php');
 phpQuery::newDocument($response);
 
 header('Content-Type: application/json');
@@ -43,6 +38,7 @@ foreach (pq('#comic > a > img[alt][title]') AS $comic) {
 
 	$obj['source'] = 'awkwardyeti';
 	$obj['link'] = $url;
+	$obj['slug'] = $slug;
 	$obj['src'] = pq($comic)->attr('src');
 	preg_match('!uploads/(\d{4}/\d{2}(/\d{2})?)!', $obj['src'], $matches);
 	$obj['serial'] = $matches[1];

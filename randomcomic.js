@@ -67,14 +67,20 @@ Timer.prototype.stop = function () {
 
 	clearInterval(this.timer);
 };
+Timer.prototype.updateHash = function () {
+	window.location.hash = '#src=' + this.comics[this.current].source
+		+ '&slug=' + this.comics[this.current].slug;
+};
 Timer.prototype.prev = function () {
 	this.stop();
 
 	if (this.current >= 0) {
 		this.current--;
+		this.updateHash();
 	}
 	if (this.current == 0) {
 		this.hidePrev();
+		this.updateHash();
 	}
 	
 	this.display(this.comics[this.current]);
@@ -84,7 +90,9 @@ Timer.prototype.next = function () {
 
 	if (this.current < this.max) {
 		this.current++;
+		this.updateHash();
 	} else {
+		window.location.hash='';
 		this.start();
 	}
 	this.display(this.comics[this.current]);
@@ -94,6 +102,7 @@ Timer.prototype.addComic = function (data) {
 	this.comics.push(data);
 	this.max++;
 	this.current = this.max;
+	this.updateHash();
 	this.display(this.comics[this.comics.length-1]);
 	this.showNext();
 	this.resume();
@@ -124,15 +133,29 @@ Timer.prototype.enabledSources = function () {
 	];
 	return sources.filter(this.comicEnabled);
 }
+Timer.prototype.getHashValue = function (key) {
+	var matches = location.hash.match(new RegExp(key+'=([^&]*)'));
+	return matches ? matches[1] : null;
+}
 Timer.prototype.getComic = function () {
 	this.hideNext();
 	this.stop();
 	var sources = this.enabledSources();
-	if (sources.length > 0) {
-		var source = sources[Math.floor(Math.random()*sources.length)];
-		$.get(source + '.php', this.addComic.bind(this));
+
+	var source;
+	var src = this.getHashValue('src');
+	var slug = this.getHashValue('slug');
+	if (src && slug && sources.includes(src)) {
+		source = src;
+	} else if (sources.length > 0) {
+		source = sources[Math.floor(Math.random()*sources.length)];
 	}
+	slug = slug ? ('?slug=' + slug) : '';
+	
+	var url = source + '.php' + slug;
+	$.get(source + '.php' + slug, this.addComic.bind(this));
 }
+
 Timer.prototype.trigger = function () {
 	this.getComic();
 }
