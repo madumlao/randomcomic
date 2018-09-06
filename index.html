@@ -6,22 +6,27 @@
 		<script src="randomcomic.js"></script>
 		<script>
 $(document).ready(function () {
-	t = new Timer(60);
+	t = new Timer($('#interval').val());
 	t.start();
 
 	$('#play').on('click', t.resume.bind(t));
 	$('#pause').on('click', t.stop.bind(t));
 	$('#prev').on('click', t.prev.bind(t));
 	$('#next').on('click', t.next.bind(t));
+	$('#interval').on('change', function() { t.interval = this.value; });
 });
 		</script>
 <style>
 body { text-align: center; }
+
+#interval { width: 5em; }
 </style>
 	</head>
 	<body>
 		<input id="prev" type="button" value="Previous" disabled />
-		<button id="next" type="button" disabled >Next <span id="counter_holder">(<span id="counter"></span>)</span></button>
+		<span id="counter">60</span> /
+		<input id="interval" type="number" size="4" maxlength="4" value="60" />
+		<button id="next" type="button" disabled >Next</button>
 		<input id="play" type="button" value="Play" />
 		<input id="pause" type="button" value="Pause" disabled />
 		<div id="comic-selection">
