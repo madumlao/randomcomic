@@ -36,6 +36,7 @@ foreach (pq('img[alt][title]') AS $comic) {
 	$obj = [];
 
 	$obj['source'] = 'xkcd';
+	$obj['source_title'] = 'XKCD';
 	$obj['link'] = $url;
 	$obj['slug'] = $slug;
 	$obj['serial'] = $slug;

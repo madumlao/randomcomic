@@ -151,7 +151,7 @@ Timer.prototype.display = function (comic) {
 	$('.comic-panel').scrollTop(0);
 
 	$('#name').html(comic.title);
-	$('#source').html(comic.source);
+	$('#source').html(comic.source_title);
 	$('#link').attr('href', comic.link);
 	$('#serial').html(comic.serial);
 	$('#flavor').html(comic.alt);

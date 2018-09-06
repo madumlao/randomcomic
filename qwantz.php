@@ -46,6 +46,7 @@ $img = pq('img.comic[src][title]');
 header('Content-Type: application/json');
 $obj = [];
 $obj['source'] = 'qwantz';
+$obj['source_title'] = 'Dinosaur Comics';
 $obj['link'] = $url;
 $obj['slug'] = $slug;
 $obj['serial'] = $serial;

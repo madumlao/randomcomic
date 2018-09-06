@@ -37,6 +37,7 @@ foreach (pq('#comic > a > img[alt][title]') AS $comic) {
 	$obj = [];
 
 	$obj['source'] = 'awkwardyeti';
+	$obj['source_title'] = 'The Awkward Yeti';
 	$obj['link'] = $url;
 	$obj['slug'] = $slug;
 	$obj['src'] = pq($comic)->attr('src');

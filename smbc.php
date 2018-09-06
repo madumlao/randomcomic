@@ -34,6 +34,7 @@ header('Content-Type: application/json');
 
 $obj = [];
 $obj['source'] = 'smbc';
+$obj['source_title'] = 'Saturday Morning Breakfast Cereal';
 $obj['link'] = $url;
 $title = pq('title')->html();
 preg_match('!Cereal - (.*)$!', $title, $matches);
