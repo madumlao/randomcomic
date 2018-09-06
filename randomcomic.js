@@ -76,11 +76,9 @@ Timer.prototype.prev = function () {
 
 	if (this.current >= 0) {
 		this.current--;
-		this.updateHash();
 	}
 	if (this.current == 0) {
 		this.hidePrev();
-		this.updateHash();
 	}
 	
 	this.display(this.comics[this.current]);
@@ -90,7 +88,6 @@ Timer.prototype.next = function () {
 
 	if (this.current < this.max) {
 		this.current++;
-		this.updateHash();
 	} else {
 		window.location.hash='';
 		this.start();
@@ -102,7 +99,6 @@ Timer.prototype.addComic = function (data) {
 	this.comics.push(data);
 	this.max++;
 	this.current = this.max;
-	this.updateHash();
 	this.display(this.comics[this.comics.length-1]);
 	this.showNext();
 	this.resume();
@@ -114,6 +110,8 @@ Timer.prototype.display = function (comic) {
 	$('#serial').html(comic.serial);
 	$('#flavor').html(comic.alt);
 	$('#img').attr('src', comic.src);
+
+	this.updateHash();
 
 	if (this.current > 0) {
 		this.showPrev();
