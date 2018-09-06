@@ -38,6 +38,8 @@ curl_close($ch);
 
 phpQuery::newDocument($response);
 $title = pq('title')->html();
+preg_match('!([^- ][^-]*) - ([^-]*)$!', $title, $matches);
+$title = $matches[1];
 $img = pq('img.comic[src][title]');
 
 # return JSON encoding
