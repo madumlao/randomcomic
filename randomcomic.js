@@ -71,7 +71,6 @@ Timer.prototype.stop = function () {
 };
 Timer.prototype.gotoComicHandler = function (e) { this.gotoComic(); }
 Timer.prototype.gotoComic = function () {
-	console.log(window.location.hash);
 	if (window.location.hash == '#') {
 		return;
 	}
