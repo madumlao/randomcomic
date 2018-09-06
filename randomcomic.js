@@ -5,6 +5,8 @@ function Timer(seconds) {
 	this.time = seconds;
 	this.timer = null;
 	this.comics = [];
+
+	$(window).on('hashchange', this.gotoComicHandler.bind(this));
 }
 Timer.prototype.start = function () {
 	this.time = this.interval;
@@ -67,9 +69,33 @@ Timer.prototype.stop = function () {
 
 	clearInterval(this.timer);
 };
+Timer.prototype.gotoComicHandler = function (e) { this.gotoComic(); }
+Timer.prototype.gotoComic = function () {
+	console.log(window.location.hash);
+	if (window.location.hash == '#') {
+		return;
+	}
+
+	var source = this.getHashValue('src');
+	var slug = this.getHashValue('slug');
+	for (var c in this.comics) {
+		if (this.comics[c].source == source && this.comics[c].slug == slug) {
+			if (c < (this.comics.length-1)) {
+				this.stop();
+			}
+			this.display(this.comics[c]);
+			return;
+		}
+	}
+
+	this.getComic();
+}
 Timer.prototype.updateHash = function () {
-	window.location.hash = '#src=' + this.comics[this.current].source
+	var hash = '#src=' + this.comics[this.current].source
 		+ '&slug=' + this.comics[this.current].slug;
+	if (window.location.hash != hash) {
+		window.location.hash = hash;
+	}
 };
 Timer.prototype.prev = function () {
 	this.stop();
@@ -81,6 +107,7 @@ Timer.prototype.prev = function () {
 		this.hidePrev();
 	}
 	
+	this.updateHash();
 	this.display(this.comics[this.current]);
 };
 Timer.prototype.next = function () {
@@ -88,20 +115,28 @@ Timer.prototype.next = function () {
 
 	if (this.current < this.max) {
 		this.current++;
+		this.updateHash();
 	} else {
-		window.location.hash='';
 		this.start();
 	}
-	this.display(this.comics[this.current]);
 };
 Timer.prototype.update = function () { $('#counter').html(this.time); };
 Timer.prototype.addComic = function (data) {
 	this.comics.push(data);
 	this.max++;
 	this.current = this.max;
+	this.updateHash();
 	this.display(this.comics[this.comics.length-1]);
 	this.showNext();
 	this.resume();
+
+	$('#comics').prepend(
+		'<li>'
+			+ '<a href="#src=' + data.source + '&slug=' + data.slug + '">'
+			+ '<div>' + data.source + ' ' + data.title + '</div>'
+			+ '<img src="' + data.src + '" />'
+		+ '</a></li>'
+	);
 };
 Timer.prototype.display = function (comic) {
 	$('#name').html(comic.title);
@@ -110,8 +145,6 @@ Timer.prototype.display = function (comic) {
 	$('#serial').html(comic.serial);
 	$('#flavor').html(comic.alt);
 	$('#img').attr('src', comic.src);
-
-	this.updateHash();
 
 	if (this.current > 0) {
 		this.showPrev();
@@ -155,5 +188,5 @@ Timer.prototype.getComic = function () {
 }
 
 Timer.prototype.trigger = function () {
-	this.getComic();
+	window.location.hash = '#';
 }

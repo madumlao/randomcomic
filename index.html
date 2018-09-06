@@ -17,38 +17,88 @@ $(document).ready(function () {
 });
 		</script>
 <style>
-body { text-align: center; }
+html, body {
+	height: 100%;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+}
 
 #interval { width: 5em; }
+
+.header {
+	height: 10%;
+}
+.main { 
+	display: flex;
+	max-height: 90%;
+}
+.comic-panel {
+	flex-basis: 90%;
+	overflow: auto;
+}
+.comic-list {
+	max-height: 90%;
+	flex-basis: 10%;
+	align-self: stretch;
+	max-height: 90%;
+	overflow: auto;
+}
+.comic-list a {
+	color: #44C;
+	text-decoration: none;
+}
+.comic-list ul {
+	list-style-type: none;
+	padding: 0;
+	overflow: hidden;
+}
+.comic-list ul li {
+	margin: 0 0 5px 0;
+}
+.comic-list ul li img {
+	max-width: 100%;
+	max-height: 100px;
+}
 </style>
 	</head>
 	<body>
-		<input id="prev" type="button" value="Previous" disabled />
-		<span id="counter">60</span> /
-		<input id="interval" type="number" size="4" maxlength="4" value="60" />
-		<button id="next" type="button" disabled >Next</button>
-		<input id="play" type="button" value="Play" />
-		<input id="pause" type="button" value="Pause" disabled />
-		<div id="comic-selection">
-			<input id="ok-xkcd" type="checkbox" checked />
-			<label for="ok-xkcd">xkcd</label>
-
-			<input id="ok-smbc" type="checkbox" checked />
-			<label for="ok-smbc">Saturday Morning Breakfast Cereal</label>
-
-			<input id="ok-qwantz" type="checkbox" checked />
-			<label for="ok-qwantz">Dinosaur Comics</label>
-
-			<input id="ok-awkwardyeti" type="checkbox" checked />
-			<label for="ok-awkwardyeti">The Awkward Yeti</label>
+		<div class="header">
+			<input id="prev" type="button" value="Previous" disabled />
+			<span id="counter">60</span> /
+			<input id="interval" type="number" size="4" maxlength="4" value="60" />
+			<button id="next" type="button" disabled >Next</button>
+			<input id="play" type="button" value="Play" />
+			<input id="pause" type="button" value="Pause" disabled />
+			<div id="comic-selection">
+				<input id="ok-xkcd" type="checkbox" checked />
+				<label for="ok-xkcd">xkcd</label>
+	
+				<input id="ok-smbc" type="checkbox" checked />
+				<label for="ok-smbc">Saturday Morning Breakfast Cereal</label>
+	
+				<input id="ok-qwantz" type="checkbox" checked />
+				<label for="ok-qwantz">Dinosaur Comics</label>
+	
+				<input id="ok-awkwardyeti" type="checkbox" checked />
+				<label for="ok-awkwardyeti">The Awkward Yeti</label>
+			</div>
+			<hr />
 		</div>
-		<hr />
-		<h1>
-			[<span id="source"></span>
-			<a id="link" href="">#<span id="serial"></span></a>]
-			<span id="name"></span>
-		</h1>
-		<img id="img" />
-		<p id="flavor"></p>
+		<div class="main">
+			<div class="comic-panel">
+				<h1>
+					[<span id="source"></span>
+					<a id="link" href="">#<span id="serial"></span></a>]
+					<span id="name"></span>
+				</h1>
+				<img id="img" />
+				<p id="flavor"></p>
+			</div>
+			<div class="comic-list">
+				<ul id="comics">
+				</ul>
+			</div>
+		</div>
 	</body>
 </html>
