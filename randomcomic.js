@@ -7,6 +7,7 @@ function Timer(seconds) {
 	this.comics = [];
 
 	$(window).on('hashchange', this.gotoComicHandler.bind(this));
+	$('*').on('click keyup mousemove', this.stopScrolling.bind(this));
 }
 Timer.prototype.start = function () {
 	this.time = this.interval;
@@ -51,6 +52,8 @@ Timer.prototype.tick = function () {
 		this.trigger();
 	}
 };
+Timer.prototype.running = function () { return this.timer != null; };
+Timer.prototype.stopped = function () { return this.timer == null; };
 Timer.prototype.resume = function () {
 	var sources = this.enabledSources();
 	if (sources.length > 0) {
@@ -68,7 +71,11 @@ Timer.prototype.stop = function () {
 	this.hideCounter();
 
 	clearInterval(this.timer);
+	this.timer = null;
 };
+Timer.prototype.stopScrolling = function () {
+	$('.comic-panel').stop();
+}
 Timer.prototype.gotoComicHandler = function (e) { this.gotoComic(); }
 Timer.prototype.gotoComic = function () {
 	if (window.location.hash == '#') {
@@ -98,6 +105,7 @@ Timer.prototype.updateHash = function () {
 };
 Timer.prototype.prev = function () {
 	this.stop();
+	this.stopScrolling();
 
 	if (this.current >= 0) {
 		this.current--;
@@ -111,6 +119,7 @@ Timer.prototype.prev = function () {
 };
 Timer.prototype.next = function () {
 	this.stop();
+	this.stopScrolling();
 
 	if (this.current < this.max) {
 		this.current++;
@@ -138,12 +147,25 @@ Timer.prototype.addComic = function (data) {
 	);
 };
 Timer.prototype.display = function (comic) {
+	this.stopScrolling();
+	$('.comic-panel').scrollTop(0);
+
 	$('#name').html(comic.title);
 	$('#source').html(comic.source);
 	$('#link').attr('href', comic.link);
 	$('#serial').html(comic.serial);
 	$('#flavor').html(comic.alt);
 	$('#img').attr('src', comic.src);
+	$('#img').off('load');
+	$('#img').on('load', (function () {
+		var panel = $('.comic-panel');
+		var scrollMax = panel[0].scrollHeight - panel.height();
+		if (this.running()) {
+			// autoscroll the comic
+			panel.animate({scrollTop: scrollMax}, {duration: (this.interval * 500)});
+
+		}
+	}).bind(this));
 
 	if (this.current > 0) {
 		this.showPrev();
