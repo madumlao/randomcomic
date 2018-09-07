@@ -118,7 +118,7 @@ Timer.prototype.prev = function () {
 	this.stop();
 	this.stopScrolling();
 
-	if (this.current >= 0) {
+	if (this.current > 0) {
 		this.current--;
 	}
 	if (this.current == 0) {

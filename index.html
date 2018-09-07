@@ -18,6 +18,14 @@ $(document).ready(function () {
 	$('#prev').on('click', t.prev.bind(t));
 	$('#next').on('click', t.next.bind(t));
 	$('#interval').on('change', function() { t.updateInterval(this.value); });
+
+	$(window).on('keyup', function (e) {
+		switch (e.which) {
+			case 37: t.prev(); break; // left
+			case 39: t.next(); break; // right
+			case 32: if (t.stopped()) t.resume(); else t.stop() // space
+		}
+	});
 });
 		</script>
 <style>
@@ -74,16 +82,16 @@ html, body {
 	</head>
 	<body>
 		<div class="header">
-			<input id="prev" type="button" value="Previous" disabled />
+			<button id="prev" disabled>&larr; Previous</button>
+			<input id="play" type="button" value="Play" />
+			<input id="pause" type="button" value="Pause" disabled />
+			<span id="counter">45</span> /
+			<input id="interval" type="number" size="4" maxlength="4" value="45" />
 			<input id="timer30" type="button" value="30" />
 			<input id="timer45" type="button" value="45" />
 			<input id="timer60" type="button" value="60" />
 			<input id="timer90" type="button" value="90" />
-			<span id="counter">45</span> /
-			<input id="interval" type="number" size="4" maxlength="4" value="45" />
-			<button id="next" type="button" disabled >Next</button>
-			<input id="play" type="button" value="Play" />
-			<input id="pause" type="button" value="Pause" disabled />
+			<button id="next" type="button">Next &rarr;</button>
 			<div id="comic-selection">
 				<input id="ok-xkcd" type="checkbox" checked />
 				<label for="ok-xkcd">xkcd</label>
