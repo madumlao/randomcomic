@@ -11,7 +11,7 @@ function Timer(seconds) {
 }
 Timer.prototype.start = function () {
 	this.time = this.interval;
-	this.trigger();
+	this.gotoComic();
 	this.resume();
 };
 Timer.prototype.hidePlay = function () {
@@ -136,7 +136,7 @@ Timer.prototype.next = function () {
 		this.current++;
 		this.updateHash();
 	} else {
-		this.start();
+		this.trigger();
 	}
 };
 Timer.prototype.update = function () { $('#counter').html(this.time); };
