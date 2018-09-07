@@ -250,5 +250,6 @@ Timer.prototype.getComic = function () {
 }
 
 Timer.prototype.trigger = function () {
+	this.time = this.interval;
 	window.location.hash = '#';
 }
