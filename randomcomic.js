@@ -180,6 +180,8 @@ Timer.prototype.display = function (comic) {
 	$('#img').attr('src', comic.src);
 	$('#img').off('load');
 	$('#img').on('load', (function () {
+		$('#img').off('load');
+
 		var panel = $('.comic-panel');
 		var scrollMax = panel[0].scrollHeight - panel.height();
 		if (this.running()) {
@@ -218,6 +220,15 @@ Timer.prototype.getHashValue = function (key) {
 	var matches = location.hash.match(new RegExp(key+'=([^&]*)'));
 	return matches ? matches[1] : null;
 }
+Timer.prototype.showLoadingScreen = function () {
+	$('#img').off('load');
+	$('#img').prop('src', 'loading.gif');
+	$('#link').prop('href', '');
+	$('#name').html('');
+	$('#source').html('');
+	$('#serial').html('');
+	$('#flavor').html('');
+};
 Timer.prototype.getComic = function () {
 	this.hideNext();
 	this.stop();
@@ -234,6 +245,7 @@ Timer.prototype.getComic = function () {
 	slug = slug ? ('?slug=' + slug) : '';
 	
 	var url = source + '.php' + slug;
+	this.showLoadingScreen();
 	$.get(source + '.php' + slug, this.addComic.bind(this));
 }
 
