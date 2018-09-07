@@ -9,11 +9,15 @@ $(document).ready(function () {
 	t = new Timer($('#interval').val());
 	t.start();
 
+	$('#timer30').on('click', function () { t.updateInterval(30); });
+	$('#timer45').on('click', function () { t.updateInterval(45); });
+	$('#timer60').on('click', function () { t.updateInterval(60); });
+	$('#timer90').on('click', function () { t.updateInterval(90); });
 	$('#play').on('click', t.resume.bind(t));
 	$('#pause').on('click', t.stop.bind(t));
 	$('#prev').on('click', t.prev.bind(t));
 	$('#next').on('click', t.next.bind(t));
-	$('#interval').on('change', function() { t.interval = this.value; });
+	$('#interval').on('change', function() { t.updateInterval(this.value); });
 });
 		</script>
 <style>
@@ -68,6 +72,10 @@ html, body {
 	<body>
 		<div class="header">
 			<input id="prev" type="button" value="Previous" disabled />
+			<input id="timer30" type="button" value="30" />
+			<input id="timer45" type="button" value="45" />
+			<input id="timer60" type="button" value="60" />
+			<input id="timer90" type="button" value="90" />
 			<span id="counter">45</span> /
 			<input id="interval" type="number" size="4" maxlength="4" value="45" />
 			<button id="next" type="button" disabled >Next</button>

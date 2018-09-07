@@ -50,8 +50,19 @@ Timer.prototype.tick = function () {
 	if (this.time <= 0) {
 		this.time = this.interval;
 		this.trigger();
+	} else if (this.time >= this.interval) {
+		this.time = this.interval;
 	}
 };
+Timer.prototype.updateInterval = function(interval) {
+	this.interval = interval;
+	if (this.time > interval) {
+		this.time = interval;
+	}
+	if ($('#interval').val() != interval) {
+		$('#interval').val(interval);
+	}
+}
 Timer.prototype.running = function () { return this.timer != null; };
 Timer.prototype.stopped = function () { return this.timer == null; };
 Timer.prototype.resume = function () {
