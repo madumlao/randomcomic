@@ -157,7 +157,18 @@ Timer.prototype.addComic = function (data) {
 		+ '</a></li>'
 	);
 };
+Timer.prototype.getIndex = function (comic) {
+	for (var n=0; n < this.comics.length; n++) {
+		if (this.comics[n].src == comic.src) {
+			return n;
+		}
+	}
+	return null;
+};
 Timer.prototype.display = function (comic) {
+	var c = this.getIndex(comic);
+	this.current = c;
+
 	this.stopScrolling();
 	$('.comic-panel').scrollTop(0);
 
@@ -176,6 +187,8 @@ Timer.prototype.display = function (comic) {
 			panel.animate({scrollTop: scrollMax}, {duration: (this.interval * 500)});
 
 		}
+
+		this.select(this.current);
 	}).bind(this));
 
 	if (this.current > 0) {
@@ -184,6 +197,11 @@ Timer.prototype.display = function (comic) {
 		this.hidePrev();
 	}
 }
+Timer.prototype.select = function (n) {
+	var comic_list = $('#comics li');
+	comic_list.removeClass('selected');
+	$(comic_list[comic_list.length - 1 - n]).addClass('selected');
+};
 Timer.prototype.comicEnabled = function (comic) {
 	return $('#ok-' + comic).prop('checked');
 }
