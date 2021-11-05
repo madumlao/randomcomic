@@ -4,7 +4,7 @@ require_once("include.php");
 if (!isset($_REQUEST['slug'])) {
 	// get a random comic
 
-	$url = 'http://c.xkcd.com/random/comic/';
+	$url = 'https://c.xkcd.com/random/comic/';
 	// get the comic source
 	$ch = curl_init($url);
 	curl_setopt($ch, CURLOPT_HEADER, TRUE);
