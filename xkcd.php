@@ -13,7 +13,7 @@ if (!isset($_REQUEST['slug'])) {
 
 	$headers = parse_headers($response);
 	
-	$url = $headers['Location'];
+	$url = $headers['location'];
 	preg_match('!(\d*)/$!', $url, $matches);
 	$slug = $matches[1];
 } else {
