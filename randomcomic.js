@@ -149,11 +149,18 @@ Timer.prototype.addComic = function (data) {
 	this.showNext();
 	this.resume();
 
+	let imgsrc_tag;
+	if (data.srcset) {
+		imgsrc_tag = 'srcset="' + data.srcset + '"';
+	} else
+		imgsrc_tag = 'src="' + data.src + '"';
+	}
+
 	$('#comics').prepend(
 		'<li>'
 			+ '<a href="#src=' + data.source + '&slug=' + data.slug + '">'
 			+ '<div>' + data.source + ' ' + data.title + '</div>'
-			+ '<img src="' + data.src + '" />'
+			+ '<img ' + imgsrc_tag + ' />'
 		+ '</a></li>'
 	);
 };
