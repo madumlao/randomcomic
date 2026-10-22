@@ -32,7 +32,7 @@ libxml_use_internal_errors(true);
 phpQuery::newDocument($response);
 
 header('Content-Type: application/json');
-foreach (pq('img[alt][title]') AS $comic) {
+foreach (pq('#comic img[alt][title]') AS $comic) {
 	$obj = [];
 
 	$obj['source'] = 'xkcd';
@@ -40,7 +40,7 @@ foreach (pq('img[alt][title]') AS $comic) {
 	$obj['link'] = $url;
 	$obj['slug'] = $slug;
 	$obj['serial'] = $slug;
-	$obj['src'] = pq($comic)->attr('src');
+	$obj['src'] = explode(' ', pq($comic)->attr('srcset'))[0];
 	$obj['title'] = pq($comic)->attr('alt');
 	$obj['alt'] = pq($comic)->attr('title');
 
