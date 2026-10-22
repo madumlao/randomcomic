@@ -40,10 +40,10 @@ foreach (pq('#comic img[alt][title]') AS $comic) {
 	$obj['link'] = $url;
 	$obj['slug'] = $slug;
 	$obj['serial'] = $slug;
-
 	if (pq($comic)->attr('srcset')) {
 		$obj['srcset'] = pq($comic)->attr('srcset');
-	} else {
+	}
+	if (pq($comic)->attr('srcset')) {
 		$obj['src'] = pq($comic)->attr('src');
 	}
 	$obj['title'] = pq($comic)->attr('alt');

@@ -149,11 +149,14 @@ Timer.prototype.addComic = function (data) {
 	this.showNext();
 	this.resume();
 
-	let imgsrc_tag;
-	if (data.srcset) {
-		imgsrc_tag = 'srcset="' + data.srcset + '"';
-	} else
-		imgsrc_tag = 'src="' + data.src + '"';
+	let imgsrc_tag = '';
+
+	if (data.hasOwnProperty('srcset')) {
+		imgsrc_tag += 'srcset="' + data.srcset + '" ';
+	}
+
+	if (data.hasOwnProperty('src')) {
+		imgsrc_tag += 'src="' + data.src + '" ';
 	}
 
 	$('#comics').prepend(
@@ -185,6 +188,7 @@ Timer.prototype.display = function (comic) {
 	$('#serial').html(comic.serial);
 	$('#flavor').html(comic.alt);
 	$('#img').attr('src', comic.src);
+	$('#img').attr('srcset', comic.srcset);
 	$('#img').off('load');
 	$('#img').on('load', (function () {
 		$('#img').off('load');
