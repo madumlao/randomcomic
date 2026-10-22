@@ -41,7 +41,7 @@ foreach (pq('#comic img[alt][title]') AS $comic) {
 	$obj['slug'] = $slug;
 	$obj['serial'] = $slug;
 
-	if (pq($comic)->attr('srcset') != undefined) {
+	if (pq($comic)->attr('srcset')) {
 		$obj['srcset'] = pq($comic)->attr('srcset');
 	} else {
 		$obj['src'] = pq($comic)->attr('src');
