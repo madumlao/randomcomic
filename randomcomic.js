@@ -187,8 +187,13 @@ Timer.prototype.display = function (comic) {
 	$('#link').attr('href', comic.link);
 	$('#serial').html(comic.serial);
 	$('#flavor').html(comic.alt);
+	if (comic.hasOwnProperty('src')) {
+		$('#img').attr('src', comic.src);
+	}
 	$('#img').attr('src', comic.src);
-	$('#img').attr('srcset', comic.srcset);
+	if (comic.hasOwnProperty('srcset')) {
+		$('#img').attr('srcset', comic.srcset);
+	}
 	$('#img').off('load');
 	$('#img').on('load', (function () {
 		$('#img').off('load');
